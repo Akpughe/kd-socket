@@ -4,11 +4,12 @@ const cors = require("cors");
 const http = require("http").Server(app);
 const PORT = 4000;
 // const { Novu, PushProviderIdEnum } = require("@novu/node");
-const socketIO = require("socket.io")(http, {
-  cors: {
-    origin: "*",
-  },
-});
+const socketIO = require("socket.io")(http);
+// const socketIO = require("socket.io")(http, {
+//   cors: {
+//     origin: "*",
+//   },
+// });
 
 app.use(cors());
 app.use(express.urlencoded({ extended: true }));
