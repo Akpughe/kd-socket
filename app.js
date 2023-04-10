@@ -5,11 +5,6 @@ const http = require("http").Server(app);
 const PORT = 4000;
 // const { Novu, PushProviderIdEnum } = require("@novu/node");
 const socketIO = require("socket.io")(http, {
-  // cors: {
-  //   origin: *,
-  // },
-
-  // allow all cors
   cors: {
     origin: "*",
   },
