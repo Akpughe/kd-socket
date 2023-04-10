@@ -5,8 +5,13 @@ const http = require("http").Server(app);
 const PORT = 4000;
 // const { Novu, PushProviderIdEnum } = require("@novu/node");
 const socketIO = require("socket.io")(http, {
+  // cors: {
+  //   origin: *,
+  // },
+
+  // allow all cors
   cors: {
-    origin: "http://localhost:3000",
+    origin: "*",
   },
 });
 
@@ -25,23 +30,20 @@ socketIO.on("connection", (socket) => {
     socket.emit("sendMessage", messageList);
   });
 
-  let interval = setInterval(function () {
-    if (messageList.length > 0) {
-      for (let i = 0; i < messageList.length; i++) {
-        if (
-          Number(messageList[i].hour) === new Date().getHours() &&
-          Number(messageList[i].minute) === new Date().getMinutes() &&
-          new Date().getSeconds() === 0
-        ) {
-          socket.emit("notification", {
-            title: messageList[i].title,
-            hour: messageList[i].hour,
-            mins: messageList[i].minute,
-          });
-        }
-      }
-    }
-  }, 1000);
+  socket.emit("notification", messageList);
+
+  // let interval = setInterval(function () {
+  //   if (messageList.length > 0) {
+  //     for (let i = 0; i < messageList.length; i++) {
+  //       socket.emit("notification", messageList);
+  //       // socket.emit("notification", {
+  //       //   title: messageList[i].title,
+  //       //   hour: messageList[i].hour,
+  //       //   mins: messageList[i].minute,
+  //       // });
+  //     }
+  //   }
+  // }, 1000);
 
   socket.on("disconnect", () => {
     socket.disconnect();
