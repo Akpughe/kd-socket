@@ -30,9 +30,20 @@ socketIO.on("connection", (socket) => {
     console.log(schedule);
     messageList.unshift(schedule);
     socket.emit("sendMessage", messageList);
+
+    socket.broadcast.emit("notification", messageList);
+    console.log("LOG", messageList);
   });
 
-  socket.emit("notification", messageList);
+  if (messageList.length > 0) {
+    for (let i = 0; i < messageList.length; i++) {
+      socket.emit("notification", messageList);
+      socket.broadcast.emit("notification", messageList);
+      console.log("LOG");
+    }
+  }
+
+  // emit notification for every plus 1
 
   // let interval = setInterval(function () {
   //   if (messageList.length > 0) {
