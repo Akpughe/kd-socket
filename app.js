@@ -32,7 +32,7 @@ socketIO.on("connection", (socket) => {
     socket.emit("sendMessage", messageList);
 
     socket.broadcast.emit("notification", messageList);
-    console.log("LOG", messageList);
+    console.log("LOG", messageList.length);
   });
 
   if (messageList.length > 0) {
@@ -42,6 +42,13 @@ socketIO.on("connection", (socket) => {
       console.log("LOG");
     }
   }
+
+  // emit to clear array
+  socket.on("clear", () => {
+    messageList = [];
+    socket.emit("sendMessage", messageList);
+    // socket.broadcast.emit("sendMessage", messageList);
+  });
 
   // emit notification for every plus 1
 
